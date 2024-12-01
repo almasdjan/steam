@@ -1,0 +1,428 @@
+basePath: /
+definitions:
+  handler.errorResponce:
+    properties:
+      message:
+        type: string
+    type: object
+  models.ChangePasswd:
+    properties:
+      new_password:
+        type: string
+      new_password2:
+        type: string
+      password:
+        type: string
+    required:
+    - new_password
+    - new_password2
+    - password
+    type: object
+  models.ChangeUserInfo:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  models.Login:
+    properties:
+      device_token:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  models.ResetPasswd:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      password2:
+        type: string
+    required:
+    - email
+    - password
+    - password2
+    type: object
+  models.SignUp:
+    properties:
+      device_token:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API server for Ordens application
+  title: Ordens App
+paths:
+  /api/admin/adminrights/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      security:
+      - ApiKeyAuth: []
+      summary: remove admin rights
+      tags:
+      - admin
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      security:
+      - ApiKeyAuth: []
+      summary: give admin rights
+      tags:
+      - admin
+  /api/admin/users:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      security:
+      - ApiKeyAuth: []
+      summary: get all users
+      tags:
+      - admin
+  /api/profile/:
+    delete:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      security:
+      - ApiKeyAuth: []
+      summary: delete profile
+      tags:
+      - profile
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      security:
+      - ApiKeyAuth: []
+      summary: get profile
+      tags:
+      - profile
+  /api/profile/changepasswd:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: password
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChangePasswd'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      security:
+      - ApiKeyAuth: []
+      summary: Change Password
+      tags:
+      - profile
+  /api/profile/changeusername:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: user info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChangeUserInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      security:
+      - ApiKeyAuth: []
+      summary: Change Username
+      tags:
+      - profile
+  /auth/adminlogin:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: email password
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      summary: LogIn for admin
+      tags:
+      - auth
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: email password
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      summary: LogIn
+      tags:
+      - auth
+  /auth/resetpasswd:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: password
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.ResetPasswd'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      summary: Reset Password
+      tags:
+      - auth
+  /auth/signup:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: account info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignUp'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      summary: SignUp
+      tags:
+      - auth
+  /auth/steam:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: go to steam
+      tags:
+      - auth
+  /auth/steam/callback:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: get from steam
+      tags:
+      - auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
