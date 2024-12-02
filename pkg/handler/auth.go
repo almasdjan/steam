@@ -86,8 +86,8 @@ func (h *Handler) signupSteam(c *gin.Context) {
 	steamRedirectURL := "https://steamcommunity.com/openid/login" +
 		"?openid.ns=http://specs.openid.net/auth/2.0" +
 		"&openid.mode=checkid_setup" +
-		"&openid.return_to=https://localhost:8080/auth/steam/callback" +
-		"&openid.realm=https://localhost:8080" +
+		"&openid.return_to=https://gamepal.kz/auth/steam/callback" +
+		"&openid.realm=https://gamepal.kz" +
 		"&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select" +
 		"&openid.identity=http://specs.openid.net/auth/2.0/identifier_select"
 
