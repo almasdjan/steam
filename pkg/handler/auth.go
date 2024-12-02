@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -86,8 +87,8 @@ func (h *Handler) signupSteam(c *gin.Context) {
 	steamRedirectURL := "https://steamcommunity.com/openid/login" +
 		"?openid.ns=http://specs.openid.net/auth/2.0" +
 		"&openid.mode=checkid_setup" +
-		"&openid.return_to=https://gamepal.kz/auth/steam/callback" +
-		"&openid.realm=https://gamepal.kz" +
+		"&openid.return_to=http://gamepal.kz/auth/steam/callback" +
+		"&openid.realm=http://gamepal.kz" +
 		"&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select" +
 		"&openid.identity=http://specs.openid.net/auth/2.0/identifier_select"
 
@@ -102,11 +103,46 @@ func (h *Handler) signupSteam(c *gin.Context) {
 // @Success 200 {object} map[string]any
 // @Router /auth/steam/callback [get]
 func (h *Handler) callbackSteam(c *gin.Context) {
-	claimedID := c.Query("openid.claimed_id")
-	c.JSON(http.StatusOK, gin.H{
-		"message":   "Successfully authenticated!",
-		"claimedID": claimedID,
-	})
+	// Получаем параметры из запроса
+	params := c.Request.URL.Query()
+
+	// Выводим параметры для отладки
+	fmt.Println("Steam OpenID callback parameters:", params)
+
+	// Проверяем обязательные параметры
+	claimedID := params.Get("openid.claimed_id")
+	if claimedID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing claimed_id"})
+		return
+	}
+
+	// Проверяем подпись (openid.sig) — требуется реализация проверки на стороне Steam
+	openidSig := params.Get("openid.sig")
+	if openidSig == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing signature"})
+		return
+	}
+
+	// Здесь вы можете обработать полученные данные
+	// Например, извлечь Steam ID из claimed_id
+	steamID := extractSteamID(claimedID)
+	if steamID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Steam ID"})
+		return
+	}
+
+	// Успешный ответ
+	c.JSON(http.StatusOK, gin.H{"message": "Steam login successful", "steam_id": steamID})
+}
+
+// Вспомогательная функция для извлечения Steam ID
+func extractSteamID(claimedID string) string {
+	// Пример: "https://steamcommunity.com/openid/id/76561198858870736"
+	const steamPrefix = "https://steamcommunity.com/openid/id/"
+	if len(claimedID) > len(steamPrefix) && claimedID[:len(steamPrefix)] == steamPrefix {
+		return claimedID[len(steamPrefix):]
+	}
+	return ""
 }
 
 // @Summary LogIn
