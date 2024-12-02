@@ -65,7 +65,7 @@ definitions:
     - name
     - password
     type: object
-host: 54.83.180.49:8080
+host: gamepal.kz
 info:
   contact: {}
   description: API server for Ordens application

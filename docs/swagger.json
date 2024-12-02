@@ -5,7 +5,7 @@
         "title": "Ordens App",
         "contact": {}
     },
-    "host": "54.83.180.49:8080",
+    "host": "gamepal.kz",
     "basePath": "/",
     "paths": {
         "/api/admin/adminrights/{id}": {

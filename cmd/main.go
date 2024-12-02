@@ -20,7 +20,8 @@ import (
 // @title Ordens App
 // @description API server for Ordens application
 
-// @host 54.83.180.49:8080
+// @host gamepal.kz
+//54.83.180.49:8080
 // @BasePath /
 
 // @securityDefinitions.apiKey ApiKeyAuth
