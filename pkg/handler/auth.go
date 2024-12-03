@@ -83,7 +83,7 @@ func (h *Handler) signup(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {object} map[string]any
-// @Router /api/profile [get]
+// @Router /api/profile/steam [get]
 func (h *Handler) signupSteam(c *gin.Context) {
 
 	userId, err := getUserId(c)
@@ -102,6 +102,59 @@ func (h *Handler) signupSteam(c *gin.Context) {
 
 	c.Redirect(http.StatusFound, steamRedirectURL)
 
+}
+
+// @Summary go to steam
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]any
+// @Router /api/profile/juststeam [get]
+func (h *Handler) signupJustSteam(c *gin.Context) {
+
+	steamRedirectURL := "https://steamcommunity.com/openid/login" +
+		"?openid.ns=http://specs.openid.net/auth/2.0" +
+		"&openid.mode=checkid_setup" +
+		"&openid.return_to=https://gamepal.kz/auth/steam/callback" +
+		"&openid.realm=https://gamepal.kz" +
+		"&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select" +
+		"&openid.identity=http://specs.openid.net/auth/2.0/identifier_select"
+
+	c.Redirect(http.StatusFound, steamRedirectURL)
+
+}
+
+// @Summary get from steam
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]any
+// @Router /auth/steam/callback [get]
+func (h *Handler) callbackJustSteam(c *gin.Context) {
+
+	params := c.Request.URL.Query()
+
+	fmt.Println("Steam OpenID callback parameters:", params)
+
+	claimedID := params.Get("openid.claimed_id")
+	if claimedID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing claimed_id"})
+		return
+	}
+
+	openidSig := params.Get("openid.sig")
+	if openidSig == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing signature"})
+		return
+	}
+
+	steamID := extractSteamID(claimedID)
+	if steamID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Steam ID"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Steam login successful", "steam_id": steamID})
 }
 
 // @Summary get from steam
