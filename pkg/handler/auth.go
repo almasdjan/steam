@@ -145,7 +145,6 @@ func (h *Handler) callbackSteam(c *gin.Context) {
 
 // Вспомогательная функция для извлечения Steam ID
 func extractSteamID(claimedID string) string {
-	// Пример: "https://steamcommunity.com/openid/id/76561198858870736"
 	const steamPrefix = "https://steamcommunity.com/openid/id/"
 	if len(claimedID) > len(steamPrefix) && claimedID[:len(steamPrefix)] == steamPrefix {
 		return claimedID[len(steamPrefix):]
