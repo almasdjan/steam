@@ -66,6 +66,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			profile.PATCH("/changeusername", h.updateUsername)
 			profile.GET("/", h.getProfile)
 			profile.DELETE("/", h.deleteUser)
+			profile.GET("/steam", h.signupSteam)
 
 		}
 
