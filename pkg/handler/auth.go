@@ -2,8 +2,11 @@ package handler
 
 import (
 	"fmt"
+	"io"
 	"net/http"
+	"net/url"
 	"strconv"
+	"strings"
 
 	"orden/models"
 
@@ -104,7 +107,7 @@ func (h *Handler) signupSteam(c *gin.Context) {
 
 }
 
-// @Summary go to steam
+// @Summary go to just steam
 // @Tags auth
 // @Accept json
 // @Produce json
@@ -148,6 +151,12 @@ func (h *Handler) callbackJustSteam(c *gin.Context) {
 		return
 	}
 
+	verified, err := verifySteamOpenID(params)
+	if err != nil || !verified {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Failed to verify Steam OpenID"})
+		return
+	}
+
 	steamID := extractSteamID(claimedID)
 	if steamID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Steam ID"})
@@ -188,6 +197,12 @@ func (h *Handler) callbackSteam(c *gin.Context) {
 		return
 	}
 
+	verified, err := verifySteamOpenID(params)
+	if err != nil || !verified {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Failed to verify Steam OpenID"})
+		return
+	}
+
 	steamID := extractSteamID(claimedID)
 	if steamID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Steam ID"})
@@ -204,6 +219,30 @@ func extractSteamID(claimedID string) string {
 		return claimedID[len(steamPrefix):]
 	}
 	return ""
+}
+
+func verifySteamOpenID(params url.Values) (bool, error) {
+	params.Add("openid.mode", "check_authentication")
+
+	// Отправляем POST-запрос на OpenID сервер Steam
+	resp, err := http.PostForm("https://steamcommunity.com/openid/login", params)
+	if err != nil {
+		return false, err
+	}
+	defer resp.Body.Close()
+
+	// Читаем ответ
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return false, err
+	}
+
+	// Steam возвращает строку "is_valid:true" для успешной проверки
+	if strings.Contains(string(body), "is_valid:true") {
+		return true, nil
+	}
+
+	return false, nil
 }
 
 // @Summary LogIn
