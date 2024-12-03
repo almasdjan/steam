@@ -78,21 +78,28 @@ func (h *Handler) signup(c *gin.Context) {
 }
 
 // @Summary go to steam
+// @Security ApiKeyAuth
 // @Tags auth
 // @Accept json
 // @Produce json
 // @Success 200 {object} map[string]any
 // @Router /auth/steam [get]
 func (h *Handler) signupSteam(c *gin.Context) {
+
+	userId, err := getUserId(c)
+	if err != nil {
+		NewErrorResponce(c, http.StatusBadRequest, "user not found")
+		return
+	}
+
 	steamRedirectURL := "https://steamcommunity.com/openid/login" +
 		"?openid.ns=http://specs.openid.net/auth/2.0" +
 		"&openid.mode=checkid_setup" +
-		"&openid.return_to=http://gamepal.kz/auth/steam/callback" +
-		"&openid.realm=http://gamepal.kz" +
+		"&openid.return_to=https://gamepal.kz/auth/steam/callback?user_id=" + strconv.Itoa(userId) +
+		"&openid.realm=https://gamepal.kz" +
 		"&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select" +
 		"&openid.identity=http://specs.openid.net/auth/2.0/identifier_select"
 
-	// Перенаправление в Steam
 	c.Redirect(http.StatusFound, steamRedirectURL)
 }
 
@@ -103,36 +110,37 @@ func (h *Handler) signupSteam(c *gin.Context) {
 // @Success 200 {object} map[string]any
 // @Router /auth/steam/callback [get]
 func (h *Handler) callbackSteam(c *gin.Context) {
-	// Получаем параметры из запроса
+
+	userID := c.Query("user_id")
+
+	if userID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing user_id"})
+		return
+	}
+
 	params := c.Request.URL.Query()
 
-	// Выводим параметры для отладки
 	fmt.Println("Steam OpenID callback parameters:", params)
 
-	// Проверяем обязательные параметры
 	claimedID := params.Get("openid.claimed_id")
 	if claimedID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing claimed_id"})
 		return
 	}
 
-	// Проверяем подпись (openid.sig) — требуется реализация проверки на стороне Steam
 	openidSig := params.Get("openid.sig")
 	if openidSig == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing signature"})
 		return
 	}
 
-	// Здесь вы можете обработать полученные данные
-	// Например, извлечь Steam ID из claimed_id
 	steamID := extractSteamID(claimedID)
 	if steamID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Steam ID"})
 		return
 	}
 
-	// Успешный ответ
-	c.JSON(http.StatusOK, gin.H{"message": "Steam login successful", "steam_id": steamID})
+	c.JSON(http.StatusOK, gin.H{"message": "Steam login successful", "steam_id": steamID, "user_id": userID})
 }
 
 // Вспомогательная функция для извлечения Steam ID

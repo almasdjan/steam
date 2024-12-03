@@ -517,6 +517,11 @@ const docTemplate = `{
         },
         "/auth/steam": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],

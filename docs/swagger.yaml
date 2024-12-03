@@ -402,6 +402,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: go to steam
       tags:
       - auth
