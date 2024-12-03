@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 const (
@@ -46,6 +47,7 @@ func (h *Handler) userIdentity(c *gin.Context) {
 
 func getUserId(c *gin.Context) (int, error) {
 	id, ok := c.Get(userCtx)
+	logrus.Printf("user id %d", id)
 	if !ok {
 		NewErrorResponce(c, http.StatusInternalServerError, "user id not found")
 		return 0, errors.New("user id not found")

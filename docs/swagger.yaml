@@ -157,6 +157,23 @@ paths:
       summary: get all users
       tags:
       - admin
+  /api/profile:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: go to steam
+      tags:
+      - auth
   /api/profile/:
     delete:
       consumes:
@@ -388,23 +405,6 @@ paths:
           schema:
             $ref: '#/definitions/handler.errorResponce'
       summary: SignUp
-      tags:
-      - auth
-  /auth/steam:
-    get:
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      security:
-      - ApiKeyAuth: []
-      summary: go to steam
       tags:
       - auth
   /auth/steam/callback:

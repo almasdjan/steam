@@ -21,6 +21,8 @@ import (
 // @description API server for Ordens application
 
 // @host gamepal.kz
+//localhost:8080
+//gamepal.kz
 //54.83.180.49:8080
 // @BasePath /
 

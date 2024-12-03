@@ -83,7 +83,7 @@ func (h *Handler) signup(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {object} map[string]any
-// @Router /auth/steam [get]
+// @Router /api/profile [get]
 func (h *Handler) signupSteam(c *gin.Context) {
 
 	userId, err := getUserId(c)
@@ -101,6 +101,7 @@ func (h *Handler) signupSteam(c *gin.Context) {
 		"&openid.identity=http://specs.openid.net/auth/2.0/identifier_select"
 
 	c.Redirect(http.StatusFound, steamRedirectURL)
+
 }
 
 // @Summary get from steam
