@@ -157,23 +157,6 @@ paths:
       summary: get all users
       tags:
       - admin
-  /api/profile:
-    get:
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      security:
-      - ApiKeyAuth: []
-      summary: go to steam
-      tags:
-      - auth
   /api/profile/:
     delete:
       consumes:
@@ -287,6 +270,23 @@ paths:
       summary: Change Username
       tags:
       - profile
+  /api/profile/steam:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: go to steam
+      tags:
+      - profile
   /auth/adminlogin:
     post:
       consumes:
@@ -315,6 +315,36 @@ paths:
           schema:
             $ref: '#/definitions/handler.errorResponce'
       summary: LogIn for admin
+      tags:
+      - auth
+  /auth/juststeam:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: go to steam
+      tags:
+      - auth
+  /auth/juststeam/callback:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: get from steam
       tags:
       - auth
   /auth/login:

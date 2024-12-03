@@ -79,7 +79,7 @@ func (h *Handler) signup(c *gin.Context) {
 
 // @Summary go to steam
 // @Security ApiKeyAuth
-// @Tags auth
+// @Tags profile
 // @Accept json
 // @Produce json
 // @Success 200 {object} map[string]any
@@ -109,7 +109,7 @@ func (h *Handler) signupSteam(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {object} map[string]any
-// @Router /api/profile/juststeam [get]
+// @Router /auth/juststeam [get]
 func (h *Handler) signupJustSteam(c *gin.Context) {
 
 	steamRedirectURL := "https://steamcommunity.com/openid/login" +
@@ -129,7 +129,7 @@ func (h *Handler) signupJustSteam(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {object} map[string]any
-// @Router /auth/steam/callback [get]
+// @Router /auth/juststeam/callback [get]
 func (h *Handler) callbackJustSteam(c *gin.Context) {
 
 	params := c.Request.URL.Query()
