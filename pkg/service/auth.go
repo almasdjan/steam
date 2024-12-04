@@ -117,7 +117,7 @@ func (s *AuthService) ResetPasswd(userId int, passwd string) error {
 }
 
 func (s *AuthService) AddSteamId(userId int, steamId string) error {
-	return s.repo.ResetPasswd(userId, steamId)
+	return s.repo.AddSteamId(userId, steamId)
 }
 
 func (s *AuthService) GetPasswdById(userId int) (string, error) {
