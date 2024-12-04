@@ -56,6 +56,16 @@ func (r *AuthPostgres) ResetPasswd(userId int, passwd string) error {
 	return nil
 }
 
+func (r *AuthPostgres) AddSteamId(userId int, steamId string) error {
+
+	query := fmt.Sprintf("UPDATE %s SET steam_id = $2 where id =$1", usersTable)
+	_, err := r.db.Exec(query, userId, steamId)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (r *AuthPostgres) GetPasswdById(userId int) (string, error) {
 	var passwd string
 	query := fmt.Sprintf("SELECT password_hash FROM %s WHERE id=$1 ", usersTable)
@@ -75,7 +85,7 @@ func (r *AuthPostgres) UpdateUseranme(userId int, name string) error {
 
 func (r *AuthPostgres) GetUserInfo(userId int) (models.Profile, error) {
 	var userInfo models.Profile
-	query := fmt.Sprintf("select id, email,name, notifications from %s where id = $1", usersTable)
+	query := fmt.Sprintf("select id, email,name from %s where id = $1", usersTable)
 	err := r.db.Get(&userInfo, query, userId)
 	return userInfo, err
 }

@@ -33,6 +33,7 @@ type Authorization interface {
 	GetRoleId(email string) (int, error)
 
 	RemoveAdmin(userId int) error
+	AddSteamId(userId int, steamId string) error
 }
 
 type Service struct {

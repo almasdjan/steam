@@ -32,6 +32,7 @@ type Authorization interface {
 	RevokeToken(token string) error
 	IsTokenRevoked(token string) (bool, error)
 	UpdateDeviceToken(token string, userId int) error
+	AddSteamId(userId int, steamId string) error
 }
 
 type Repository struct {

@@ -209,6 +209,20 @@ func (h *Handler) callbackSteam(c *gin.Context) {
 		return
 	}
 
+	userId, err := strconv.Atoi(userID)
+	if err != nil {
+		logrus.Println(err.Error())
+		NewErrorResponce(c, http.StatusInternalServerError, "incorrect user")
+		return
+	}
+
+	err = h.services.Authorization.AddSteamId(userId, steamID)
+	if err != nil {
+		logrus.Println(err.Error())
+		NewErrorResponce(c, http.StatusInternalServerError, "произашла ошибка")
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{"message": "Steam login successful", "steam_id": steamID, "user_id": userID})
 }
 

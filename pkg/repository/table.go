@@ -15,7 +15,8 @@ func CreateTable(db *sqlx.DB) error {
 			deleted_at TIMESTAMP DEFAULT null,
 			notifications boolean default false,
 			is_deleted boolean default false,
-			device_token varchar(255) default null
+			device_token varchar(255) default null,
+			steam_id BIGINT UNIQUE
 		);
 
 		
