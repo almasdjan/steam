@@ -318,7 +318,7 @@ func (h *Handler) loginn(c *gin.Context) {
 
 	token, err := h.services.Authorization.GenerateToken(input.Email, input.Password)
 	if err != nil {
-		NewErrorResponce(c, http.StatusInternalServerError, "password or email is not correct")
+		NewErrorResponce(c, http.StatusInternalServerError, "password or email is not correctt")
 		return
 	}
 
