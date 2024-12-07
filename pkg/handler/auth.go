@@ -127,6 +127,26 @@ func (h *Handler) signupJustSteam(c *gin.Context) {
 
 }
 
+// @Summary go to just steamm
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]any
+// @Router /auth/juststeamm [get]
+func (h *Handler) signupJustSteamm(c *gin.Context) {
+
+	steamRedirectURL := "https://steamcommunity.com/openid/login" +
+		"?openid.ns=http://specs.openid.net/auth/2.0" +
+		"&openid.mode=checkid_setup" +
+		"&openid.return_to=https://gamepal.kz/auth/juststeam/callback" +
+		"&openid.realm=https://gamepal.kz" +
+		"&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select" +
+		"&openid.identity=http://specs.openid.net/auth/2.0/identifier_select"
+
+	c.Redirect(http.StatusFound, steamRedirectURL)
+
+}
+
 // @Summary get from steam
 // @Tags auth
 // @Accept json
