@@ -299,46 +299,6 @@ func (h *Handler) login(c *gin.Context) {
 	})
 }
 
-// @Summary LogInn
-// @Tags auth
-// @Accept json
-// @Produce json
-// @Param input body models.Login true "email password"
-// @Success 200 {object} map[string]any
-// @Failure 400 {object} errorResponce
-// @Failure 500 {object} errorResponce
-// @Router /auth/loginn [post]
-func (h *Handler) loginn(c *gin.Context) {
-	var input models.Login
-
-	if err := c.BindJSON(&input); err != nil {
-		NewErrorResponce(c, http.StatusBadRequest, err.Error())
-		return
-	}
-
-	token, err := h.services.Authorization.GenerateToken(input.Email, input.Password)
-	if err != nil {
-		NewErrorResponce(c, http.StatusInternalServerError, "password or email is not correctt")
-		return
-	}
-
-	user, err := h.services.Authorization.GetUserByEmail(input.Email)
-	if err != nil {
-		NewErrorResponce(c, http.StatusInternalServerError, "cannot find user by email")
-		return
-	}
-
-	err = h.services.Authorization.UpdateDeviceToken(input.DeviceToken, user.Id)
-	if err != nil {
-		NewErrorResponce(c, http.StatusInternalServerError, "failed to update device token")
-		return
-	}
-
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"token": token,
-	})
-}
-
 // @Summary LogIn for admin
 // @Tags auth
 // @Accept json

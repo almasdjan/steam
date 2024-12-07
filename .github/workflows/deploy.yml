@@ -24,6 +24,6 @@ jobs:
           cd orden &&
           git pull origin main &&
           cd cmd &&
-          go build -o app main.go &&
-          sudo systemctl restart goweb.service
+          go build main.go &&
+          sudo systemctl restart goweb
           "
