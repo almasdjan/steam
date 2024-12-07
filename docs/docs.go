@@ -462,7 +462,7 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "LogIn",
+                "summary": "LogInn",
                 "parameters": [
                     {
                         "description": "email password",

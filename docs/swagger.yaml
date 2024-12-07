@@ -374,7 +374,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.errorResponce'
-      summary: LogIn
+      summary: LogInn
       tags:
       - auth
   /auth/resetpasswd:
