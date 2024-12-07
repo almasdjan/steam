@@ -25,5 +25,5 @@ jobs:
           git pull origin main &&
           cd cmd &&
           go build -o app main.go &&
-          systemctl restart goweb.service
+          sudo systemctl restart goweb.service
           "
