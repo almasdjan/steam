@@ -48,6 +48,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		auth.POST("/signup", h.signup)
 		auth.POST("/login", h.login)
+		auth.POST("/loginn", h.login)
 
 		auth.GET("/juststeam", h.signupJustSteam)
 		auth.GET("/juststeam/callback", h.callbackJustSteam)
