@@ -347,21 +347,6 @@ paths:
       summary: get from steam
       tags:
       - auth
-  /auth/juststeamm:
-    get:
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      summary: go to just steamm
-      tags:
-      - auth
   /auth/login:
     post:
       consumes:
