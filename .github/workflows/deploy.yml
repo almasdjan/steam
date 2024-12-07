@@ -25,5 +25,6 @@ jobs:
           git pull origin main &&
           cd cmd &&
           go build main.go &&
+          sleep 15 &&
           sudo systemctl restart goweb
           "
