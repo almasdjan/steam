@@ -20,10 +20,10 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh ubuntu@54.83.180.49 "
+          ssh -o StrictHostKeyChecking=no ubuntu@54.83.180.49 "
           cd orden &&
           git pull origin main &&
           cd cmd &&
           go build -o app main.go &&
           systemctl restart goweb.service
-        "
+          "
