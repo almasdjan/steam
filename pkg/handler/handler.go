@@ -51,6 +51,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 		auth.GET("/juststeam", h.signupJustSteam)
 		auth.GET("/juststeam/callback", h.callbackJustSteam)
+		auth.GET("/juststeamm/callback", h.callbackJustSteam)
 
 		auth.GET("/steam/callback", h.callbackSteam)
 
