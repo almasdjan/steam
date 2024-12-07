@@ -22,8 +22,8 @@ jobs:
         run: |
           ssh ubuntu@54.83.180.49 "
           cd orden &&
-          git pull &&
+          git pull origin main &&
           cd cmd &&
-          go build main.go &&
+          go build -o app main.go &&
           systemctl restart goweb.service
         "
