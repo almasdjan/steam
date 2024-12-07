@@ -329,7 +329,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: go to steam
+      summary: go to just steam
       tags:
       - auth
   /auth/juststeam/callback:
@@ -375,6 +375,36 @@ paths:
           schema:
             $ref: '#/definitions/handler.errorResponce'
       summary: LogIn
+      tags:
+      - auth
+  /auth/loginn:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: email password
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      summary: LogInn
       tags:
       - auth
   /auth/resetpasswd:

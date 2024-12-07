@@ -416,7 +416,7 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "go to steam",
+                "summary": "go to just steam",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -463,6 +463,52 @@ const docTemplate = `{
                     "auth"
                 ],
                 "summary": "LogIn",
+                "parameters": [
+                    {
+                        "description": "email password",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponce"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponce"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/loginn": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "LogInn",
                 "parameters": [
                     {
                         "description": "email password",
