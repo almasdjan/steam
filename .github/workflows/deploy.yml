@@ -32,6 +32,5 @@ jobs:
           git pull origin $BRANCH_NAME &&
           cd cmd &&
           go build main.go &&
-          sudo systemctl restart $SYSTEMD_UNIT &&
-          sleep 2
+          sudo systemctl restart $SYSTEMD_UNIT 
           "
