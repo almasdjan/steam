@@ -1,16 +1,18 @@
 env:
+  DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
   SERVER_USER: ${{ secrets.SERVER_USER }}
   SERVER_IP: ${{ secrets.SERVER_IP }}
   BRANCH_NAME: ${{ secrets.BRANCH_NAME }}
   PROJECT_DIR: ${{ secrets.PROJECT_DIR }}
   SYSTEMD_UNIT: ${{ secrets.SYSTEMD_UNIT }}
 
+
 name: Deploy to Server
 
 on:
   push:
     branches:
-      - main  # Замените на вашу основную ветку
+      - $BRANCH_NAME 
 
 jobs:
   deploy:
@@ -23,7 +25,7 @@ jobs:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.7.0
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+          ssh-private-key: $DEPLOY_KEY
 
       - name: Deploy to server
         run: |
