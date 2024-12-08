@@ -4,15 +4,15 @@ env:
   BRANCH_NAME: ${{ secrets.BRANCH_NAME }}
   PROJECT_DIR: ${{ secrets.PROJECT_DIR }}
   SYSTEMD_UNIT: ${{ secrets.SYSTEMD_UNIT }}
-  
 
 name: Deploy to Server
 
 on:
   push:
     branches:
-      - $BRANCH_NAME 
+      - main 
 
+      
 jobs:
   deploy:
     runs-on: ubuntu-latest
