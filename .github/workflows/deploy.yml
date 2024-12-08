@@ -1,5 +1,4 @@
 env:
-  DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
   SERVER_USER: ${{ secrets.SERVER_USER }}
   SERVER_IP: ${{ secrets.SERVER_IP }}
   BRANCH_NAME: ${{ secrets.BRANCH_NAME }}
@@ -25,7 +24,7 @@ jobs:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.7.0
         with:
-          ssh-private-key: $DEPLOY_KEY
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Deploy to server
         run: |
