@@ -1,3 +1,10 @@
+env:
+  SERVER_USER: ${{ secrets.SERVER_USER }}
+  SERVER_IP: ${{ secrets.SERVER_IP }}
+  BRANCH_NAME: ${{ secrets.BRANCH_NAME }}
+  PROJECT_DIR: ${{ secrets.PROJECT_DIR }}
+  SYSTEMD_UNIT: ${{ secrets.SYSTEMD_UNIT }}
+
 name: Deploy to Server
 
 on:
@@ -20,11 +27,11 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@54.83.180.49 "
-          cd orden &&
-          git pull origin main &&
+          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "
+          cd $PROJECT_DIR &&
+          git pull origin $BRANCH_NAME &&
           cd cmd &&
           go build main.go &&
-          sudo systemctl restart goweb &&
-          sleep 5
+          sudo systemctl restart $SYSTEMD_UNIT &&
+          sleep 2
           "
